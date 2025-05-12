@@ -9,15 +9,21 @@
     <div id="statistics-content">
 
         <div style="display: grid; grid-template-columns: 1fr 1fr;">
-            <div class="360-view">
+            <div class="camera-view">
                 <h2>Camera View</h2>
-                <div id="360-view-content"></div>
+                <div id="camera-view-content"></div>
                 
             </div>
 
             <div class="2D-Map">
                 <h2>2D Map</h2>
-                <div id="2D-map-content"></div>
+                <div id="2D-map-content">
+                    <canvas id="map-canvas" width="500" height="500">
+                        Your browser does not support the HTML5 canvas tag.
+                    </canvas>
+                </div>
+                <div class="legend" id="legend"> </div> 
+
             </div>
         </div>
 
@@ -34,7 +40,7 @@
 
 
 <style>
-    .back-button {
+    button {
         display: inline-block;
         padding: 10px 15px;
         background-color: #007BFF;
@@ -48,6 +54,37 @@
         background-color: #0056b3;
     }
 
+    .statistics-view {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+    .statistics-view h1 {
+        font-size: 24px;
+        margin-bottom: 15px;
+    }
+
+    .statistics-view h2 {
+        font-size: 20px;
+        margin-bottom: 10px;
+    }
+
+    .legend {
+        margin-top: 10px;
+        font-size: 14px;
+        color: #555;
+    }
+
+    .statistics-table {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #fff;
+    }
 
     
 
@@ -57,3 +94,4 @@
 
 
 <script src="/static/script/statistics.js"></script>
+<script src="/static/script/canvas_filler.js"></script>
