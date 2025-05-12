@@ -1,0 +1,78 @@
+
+Choose a log file you want to see:
+
+<div class="log_file_container">
+    <div class="log_file">
+        <span class="log_file_name">FILEID</span>
+        <button class="view_log_button" onclick="open_statistics('FILEID')">View</button>
+    </div>
+</div>
+
+<style>
+    .log_file_container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 20px;
+    }
+
+    .log_file {
+        display: flex;
+        align-items: center;
+        background-color: #f9f9f9;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        padding: 10px 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .log_file:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+    }
+
+    .log_file_name {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        margin-right: 15px;
+    }
+
+    .view_log_button {
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 12px;
+        font-size: 14px;
+        cursor: pointer;
+        transition: background-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .view_log_button:hover {
+        background-color: #0056b3;
+        transform: scale(1.05);
+    }
+
+    .view_log_button:active {
+        transform: scale(0.95);
+    }
+</style>
+
+<script>
+
+    const container = document.querySelector(".log_file_container");
+    const template = container.innerHTML;
+    async function load_statistic() {
+        var files = await find_files();
+        container.innerHTML = "";
+        for (var i = 0; i < files.length; i++) {
+            var f = template;
+            f = f.replaceAll("FILEID", files[i]);
+            container.innerHTML += f;
+        }
+    }
+    load_statistic();
+    
+</script>

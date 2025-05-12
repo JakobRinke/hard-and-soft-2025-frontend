@@ -1,0 +1,59 @@
+<button onclick="open_choose_file()"">Back</a>
+
+<button onclick="reload_statistics()">Reload</button>
+
+
+<div class="statistics-view">
+    <h1>Log File: </h1>
+
+    <div id="statistics-content">
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr;">
+            <div class="360-view">
+                <h2>Camera View</h2>
+                <div id="360-view-content"></div>
+                
+            </div>
+
+            <div class="2D-Map">
+                <h2>2D Map</h2>
+                <div id="2D-map-content"></div>
+            </div>
+        </div>
+
+
+
+        <div class="statistics-table">
+            <h2> Statistics Table</h2>
+            <div id="statistics-table-content"></div>
+        </div>
+
+
+    </div>
+
+
+
+<style>
+    .back-button {
+        display: inline-block;
+        padding: 10px 15px;
+        background-color: #007BFF;
+        color: white;
+        text-decoration: none;
+        border-radius: 5px;
+        font-size: 14px;
+    }
+
+    .back-button:hover {
+        background-color: #0056b3;
+    }
+
+
+    
+
+</style>
+
+
+
+
+<script src="/static/script/statistics.js"></script>

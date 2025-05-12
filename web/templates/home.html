@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="static/style.css">
+</head>
+<body>
+    <script>
+        const token = "{{ token }}";
+        // Save to token to the cookies
+        document.cookie = "token=" + token + "; path=/";
+    </script>
+
+    <script src="/static/script/api.js"></script>
+    <script src="/static/script/table.js"></script>
+
+    <div class="home-container" id="choose_file">
+        {% include 'choose_file.html' %}
+    </div>
+
+    <div class="home-container" id="statistics">
+        {% include 'statistics.html' %}
+    </div>
+
+
+
+    
+
+</body>
+
+
+<script src="/static/script/manager.js"></script>
+
+
+</html>

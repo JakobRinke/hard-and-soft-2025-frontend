@@ -1,0 +1,108 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    display: flex;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    color: #333; /* Improved text contrast */
+}
+.log_file_container, .login-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+    margin: auto; /* Centers the container */
+}
+
+.login-container {
+    background: #ffffff;
+    padding: 24px; /* Slightly increased padding for better spacing */
+    border-radius: 10px; /* Softer border radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow for better depth */
+    width: 320px; /* Adjusted width for better layout */
+}
+
+.login-container h2 {
+    margin-bottom: 16px; /* Reduced margin for better spacing */
+    text-align: center;
+    font-size: 1.5rem; /* Improved heading size */
+    color: #007BFF; /* Added color for emphasis */
+}
+
+.login-container input {
+    width: 100%;
+    padding: 12px; /* Increased padding for better usability */
+    margin: 12px 0;
+    border: 1px solid #ccc;
+    border-radius: 6px; /* Softer border radius */
+    font-size: 1rem; /* Improved font size for readability */
+    box-sizing: border-box; /* Ensures consistent sizing */
+}
+
+.login-container input:focus {
+    border-color: #007BFF; /* Added focus state for accessibility */
+    outline: none;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+}
+
+.login-container button {
+    width: 100%;
+    padding: 12px; /* Increased padding for better usability */
+    background-color: #007BFF;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px; /* Softer border radius */
+    cursor: pointer;
+    font-size: 1rem; /* Improved font size for readability */
+    transition: background-color 0.3s ease; /* Added smooth transition */
+}
+
+.login-container button:hover {
+    background-color: #0056b3;
+}
+
+.login-container button:active {
+    background-color: #004494; /* Added active state for better feedback */
+}
+
+.login-container button:disabled {
+    background-color: #cccccc; /* Added disabled state */
+    cursor: not-allowed;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 1rem;
+    text-align: left;
+    color: #333;
+}
+
+table th, table td {
+    padding: 12px; /* Added padding for better spacing */
+    border: 1px solid #ddd; /* Subtle border for separation */
+    box-sizing: border-box; /* Ensures consistent sizing */
+}
+
+table th {
+    background-color: #007BFF; /* Highlighted header background */
+    color: #ffffff; /* White text for contrast */
+    font-weight: bold;
+}
+
+table tr:nth-child(even) {
+    background-color: #f9f9f9; /* Alternating row colors for readability */
+}
+
+table tr:hover {
+    background-color: #f1f1f1; /* Highlighted row on hover */
+}
+
+/* Added fix to prevent table from overlapping other elements */
+table {
+    max-width: 100%; /* Ensures table does not exceed container width */
+    overflow-x: auto; /* Adds horizontal scroll if content overflows */
+}
