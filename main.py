@@ -1,7 +1,8 @@
-from flask import Flask, render_template, redirect, url_for, request
+from flask import Flask, Response, render_template, redirect, url_for, request
 import web_auth
 from datetime import datetime
 import data
+import camera
 
 app = Flask(__name__, static_folder="web/static", template_folder="web/templates")
 
@@ -39,6 +40,17 @@ def get_file(filename):
         "data": data.get_data_file(filename),
     }
 
+
+def gen(camera):
+    while True:
+        frame = camera.get_frame()
+        yield (b'--frame\r\n'
+               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+@app.route('/video_feed')
+def video_feed():
+    return Response(gen(camera.VideoCamera()),
+                    mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
 if __name__ == "__main__":
