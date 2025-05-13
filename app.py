@@ -4,7 +4,7 @@ from datetime import datetime
 import data
 import camera
 
-app = Flask(__name__, static_folder="web/static", template_folder="web/templates")
+app = Flask(__name__, host='0.0.0.0.', port=5000,static_folder="web/static", template_folder="web/templates")
 
 @app.route('/static/<path:filename>')
 def static_files(filename):
