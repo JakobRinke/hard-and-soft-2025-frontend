@@ -19,15 +19,7 @@ class VideoCamera(object):
             response = requests.get(self.stream_url, stream=True, timeout=1)
             print(f"Stream URL: {self.stream_url}")
             if response.status_code == 200:
-                data = np.frombuffer(response.content, np.uint8)
-                image = cv2.imdecode(data, cv2.IMREAD_COLOR)
-                if image is not None:
-                    resized_image = cv2.resize(image, (160, 120))  # Resize to 160x120
-                    ret, jpeg = cv2.imencode('.jpg', resized_image)
-                    return jpeg.tobytes()
-                else:
-                    print("Failed to decode image from stream.")
-                    return b''
+                return response.content
             else:
                 print(f"Failed to fetch stream: {response.status_code}")
         except Exception as e:
