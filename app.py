@@ -47,7 +47,10 @@ def get_image(filename):
         return {"error": "Unauthorized"}, 401
     return data.get_image(filename)
 
-
+import requests
+STREAM_URL = "http://localhost:8080/stream?topic=/ascamera/camera_publisher/rgb0/image"
+ORIGINAL_BOUNDARY = b'--boundarydonotcross'
+TARGET_BOUNDARY = b'--frame'
 @app.route('/video_feed')
 def video_feed():
     # Token Check
@@ -55,9 +58,16 @@ def video_feed():
     if not token:
         return {"error": "Unauthorized"}, 401
 
-    # MJPEG Proxy ? Stream wird 1:1 durchgereicht
+    def generate():
+        with requests.get(STREAM_URL, stream=True) as r:
+            buffer = b''
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    # Patch boundary im Chunk
+                    chunk = chunk.replace(ORIGINAL_BOUNDARY, TARGET_BOUNDARY)
+                    yield chunk
 
-    return Response(camera.generate(), content_type='multipart/x-mixed-replace; boundary=boundarydonotcross')
+    return Response(generate(), content_type='multipart/x-mixed-replace; boundary=frame')
 
 
 
