@@ -48,16 +48,17 @@ def get_image(filename):
     return data.get_image(filename)
 
 
-def gen(camera):
-    while True:
-        frame = camera.get_frame()
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
-
 @app.route('/video_feed')
 def video_feed():
-    return Response(gen(camera.VideoCamera()),
-                    mimetype='multipart/x-mixed-replace; boundary=frame')
+    # Token Check
+    token = web_auth.check_request(request)
+    if not token:
+        return {"error": "Unauthorized"}, 401
+
+    # MJPEG Proxy ? Stream wird 1:1 durchgereicht
+
+    return Response(camera.generate(), content_type='multipart/x-mixed-replace; boundary=--frame')
+
 
 
 if __name__ == "__main__":
