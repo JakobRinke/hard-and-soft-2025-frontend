@@ -17,6 +17,7 @@ class VideoCamera(object):
         try:
             # Try to fetch the frame from the stream URL
             response = requests.get(self.stream_url, stream=True, timeout=1)
+            print(f"Stream URL: {self.stream_url}")
             if response.status_code == 200:
                 data = np.frombuffer(response.content, np.uint8)
                 image = cv2.imdecode(data, cv2.IMREAD_COLOR)
