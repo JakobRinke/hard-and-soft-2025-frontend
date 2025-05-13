@@ -21,7 +21,9 @@ class VideoCamera(object):
                     resized_image = cv2.resize(image, (160, 120))  # Resize to 160x120
                     ret, jpeg = cv2.imencode('.jpg', resized_image)
                     return jpeg.tobytes()
-        except Exception:
+        except Exception as e:
+            print("Failed to fetch stream from URL, falling back to video capture.")
+            print(e)  # Log the error for debugging
             pass  # Fallback to video capture if the stream fails
 
         # Fallback to video capture
