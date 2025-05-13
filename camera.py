@@ -1,49 +1,23 @@
 import cv2
-import requests
-import numpy as np
 
 class VideoCamera(object):
     def __init__(self):
-        try:
-            self.video = cv2.VideoCapture(0)
-        except Exception as e:
-            pass
+        # Versuche direkt den MJPEG Stream zu öffnen
         self.stream_url = "http://localhost:8080/stream?topic=/ascamera/camera_publisher/rgb0/image"
+        self.video = cv2.VideoCapture(self.stream_url)
+        if not self.video.isOpened():
+            print("⚠️ Stream konnte nicht geöffnet werden, versuche lokale Kamera...")
+            self.video = cv2.VideoCapture(0)
 
     def __del__(self):
         self.video.release()
 
     def get_frame(self):
-        try:
-            # Try to fetch the frame from the stream URL
-            response = requests.get(self.stream_url, timeout=1)
-            print(f"Stream URL: {self.stream_url}")
-            if response.status_code == 200:
-                # Decode the image from the response content
-                np_array = np.frombuffer(response.content, np.uint8)
-                image = cv2.imdecode(np_array, cv2.IMREAD_COLOR)
-                if image is not None:
-                    resized_image = cv2.resize(image, (160, 120))  # Resize to 160x120
-                    ret, jpeg = cv2.imencode('.jpg', resized_image)
-                    return jpeg.tobytes()
-                else:
-                    print("Failed to decode image from stream.")
-            else:
-                print(f"Failed to fetch stream: {response.status_code}")
-        except Exception as e:
-            print("Failed to fetch stream from URL, falling back to video capture.")
-            print(e)  # Log the error for debugging
-            pass  # Fallback to video capture if the stream fails
-
-        # Fallback to video capture
-        if not self.video.isOpened():
-            self.video.open(0)
         cv2.setLogLevel(0)
-
         success, image = self.video.read()
         if not success:
-            return b''  # Return empty bytes instead of None
-        else:
-            resized_image = cv2.resize(image, (160, 120))  # Resize to 160x120
-            ret, jpeg = cv2.imencode('.jpg', resized_image)
-            return jpeg.tobytes()
+            print("⚠️ Kein Bild empfangen!")
+            return b''
+        resized_image = cv2.resize(image, (160, 120))
+        ret, jpeg = cv2.imencode('.jpg', resized_image)
+        return jpeg.tobytes()
