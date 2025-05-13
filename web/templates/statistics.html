@@ -1,20 +1,17 @@
-<button onclick="open_choose_file()"">Back</a>
+<button onclick="open_choose_file()">Back</button>
 
 <button onclick="reload_statistics()">Reload</button>
 
-
 <div class="statistics-view">
-    <h1>Log File: </h1>
+    <h1>Log File:</h1>
 
-    <div id="statistics-content">
-
+    <div id="statistics-content"></div>
         <div style="display: grid; grid-template-columns: 1fr 1fr;">
             <div class="camera-view">
                 <h2>Camera View</h2>
                 <div id="camera-view-content">
                     <img src="/video_feed" id="videoStream" />
                 </div>
-                
             </div>
 
             <div class="2D-Map">
@@ -24,22 +21,16 @@
                         Your browser does not support the HTML5 canvas tag.
                     </canvas>
                 </div>
-                <div class="legend" id="legend"> </div> 
-
+                <div class="legend" id="legend"></div>
             </div>
         </div>
 
-
-
         <div class="statistics-table">
-            <h2> Statistics Table</h2>
+            <h2>Statistics Table</h2>
             <div id="statistics-table-content"></div>
         </div>
-
-
     </div>
-
-
+</div>
 
 <style>
     button {
@@ -88,12 +79,10 @@
         background-color: #fff;
     }
 
-    
-
+    #videoStream {
+        width: 90%;
+    }
 </style>
-
-
-
 
 <script src="/static/script/statistics.js"></script>
 <script src="/static/script/canvas_filler.js"></script>
