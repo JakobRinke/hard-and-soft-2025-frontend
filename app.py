@@ -57,7 +57,8 @@ def video_feed():
 
     # MJPEG Proxy ? Stream wird 1:1 durchgereicht
 
-    return Response(camera.generate(), content_type='multipart/x-mixed-replace; boundary=--frame')
+    return Response(camera.generate(), content_type='multipart/x-mixed-replace; boundary=boundarydonotcross')
+
 
 
 
