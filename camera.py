@@ -1,8 +1,13 @@
-import requests
+import urllib.request
 MJPEG_STREAM_URL = "http://localhost:8080/stream?topic=/ascamera/camera_publisher/rgb0/image"
 
 def generate():
-    with requests.get(MJPEG_STREAM_URL, stream=True) as r:
-        for chunk in r.iter_content(chunk_size=1024):
-            if chunk:
+    try:
+        with urllib.request.urlopen(MJPEG_STREAM_URL) as stream:
+            while True:
+                chunk = stream.read(1024)
+                if not chunk:
+                    break
                 yield chunk
+    except Exception as e:
+        print(f"❌ Fehler im MJPEG Proxy: {e}")
