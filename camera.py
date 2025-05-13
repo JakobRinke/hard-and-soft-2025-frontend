@@ -1,11 +1,11 @@
 import cv2
-import requests
 import numpy as np
+import urllib.request
 
 class VideoCamera(object):
     def __init__(self):
         self.stream_url = "http://localhost:8080/stream?topic=/ascamera/camera_publisher/rgb0/image"
-        self.stream = requests.get(self.stream_url, stream=True)
+        self.stream = urllib.request.urlopen(self.stream_url)
         self.bytes = b''
 
     def __del__(self):
@@ -13,8 +13,7 @@ class VideoCamera(object):
 
     def get_frame(self):
         try:
-            # Lies kontinuierlich den Stream Buffer
-            self.bytes += self.stream.raw.read(1024)
+            self.bytes += self.stream.read(1024)
             a = self.bytes.find(b'\xff\xd8')  # JPEG start
             b = self.bytes.find(b'\xff\xd9')  # JPEG end
             if a != -1 and b != -1:
@@ -29,7 +28,7 @@ class VideoCamera(object):
                     print("?? Bild konnte nicht dekodiert werden.")
                     return b''
             else:
-                print("?? Noch kein vollständiges JPEG-Paket.")
+                # Noch nicht genug Daten für ein Bild
                 return b''
         except Exception as e:
             print(f"?? Fehler beim Lesen des MJPEG Streams: {e}")
