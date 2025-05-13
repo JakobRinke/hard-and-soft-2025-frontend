@@ -4,19 +4,24 @@ const ctx2 = cv2.getContext('2d');
 const img = new Image();
 img.src = '/video_feed';
 
-img.onload = function() {
+
+const ERROR_FPS = 10;
+
+
+
+img.onload = async function() {
     drawFrame();
 };
 
-function drawFrame() {
-    ctx2.drawImage(img, 0, 0, canvas.width, canvas.height);
-    // Loop by creating a new image object each time
-    img.src = '/video_feed?rand=' + Math.random(); // Prevent caching
+async function drawFrame() {
+    try {
+        ctx2.drawImage(img, 0, 0, cv2.width, cv2.height);
+    } catch (error) { }
+    img.src = '/video_feed?rand=' + Math.random();
 }
 
-img.onerror = function() {
-    console.error("Error loading frame, retrying...");
+img.onerror = async function() {
     setTimeout(() => {
         img.src = '/video_feed?rand=' + Math.random();
-    }, 100);
+    }, 1000 / ERROR_FPS);
 };

@@ -40,6 +40,13 @@ def get_file(filename):
         "data": data.get_data_file(filename),
     }
 
+@app.route("/image/<filename>", methods=["GET"])
+def get_image(filename):
+    token = web_auth.check_request(request)
+    if not token:
+        return {"error": "Unauthorized"}, 401
+    return data.get_image(filename)
+
 
 def gen(camera):
     while True:

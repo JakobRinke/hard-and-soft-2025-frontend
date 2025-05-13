@@ -20,6 +20,6 @@ class VideoCamera(object):
             return b''  # Return empty bytes instead of None
         else:
             # Resize the image to make it smaller
-            resized_image = cv2.resize(image, (320, 240))  # Resize to 320x240
+            resized_image = cv2.resize(image, (160, 120))  # Resize to 160x120
             ret, jpeg = cv2.imencode('.jpg', resized_image)
             return jpeg.tobytes()

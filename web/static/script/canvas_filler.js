@@ -31,10 +31,31 @@ const ctx = canvas.getContext('2d');
 const canvasXSize = canvas.width;
 const canvasYSize = canvas.height;
 
-function fill_canvas() {
+async function fill_canvas() {
 
     // Draw the Grid JPG or the map
-    // TODO
+    // TODO: Draw the image of fileid + ".pgm" in the canvas
+    if (typeof current_file_id === 'undefined' || current_file_id === null) {
+        console.error('Error: current_file_id is not defined or null.');
+        return;
+    }
+
+    const img = new Image();
+    img.src = '/image/' + current_file_id;
+    try {
+        const img = new Image();
+        img.src = '/image/' + current_file_id;
+        const imageLoaded = new Promise((resolve, reject) => {
+            img.onload = () => resolve(img);
+            img.onerror = () => reject(new Error('Failed to load image with src: ' + img.src));
+        });
+
+        const loadedImg = await imageLoaded;
+        ctx.drawImage(loadedImg, 0, 0, canvasXSize, canvasYSize);
+    } catch (error) {
+        console.error(error.message);
+    }
+
     
     // Draw players
     for (let i = 0; i < current_file.timestamps.length; i++) {
