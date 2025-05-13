@@ -4,7 +4,10 @@ import numpy as np
 
 class VideoCamera(object):
     def __init__(self):
-        self.video = cv2.VideoCapture(0)
+        try:
+            self.video = cv2.VideoCapture(0)
+        except Exception as e:
+            pass
         self.stream_url = "http://localhost:8080/stream?topic=/ascamera/camera_publisher/rgb0/image"
 
     def __del__(self):
