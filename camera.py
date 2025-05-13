@@ -1,23 +1,36 @@
 import cv2
+import requests
+import numpy as np
 
 class VideoCamera(object):
     def __init__(self):
-        # Versuche direkt den MJPEG Stream zu öffnen
         self.stream_url = "http://localhost:8080/stream?topic=/ascamera/camera_publisher/rgb0/image"
-        self.video = cv2.VideoCapture(self.stream_url)
-        if not self.video.isOpened():
-            print("⚠️ Stream konnte nicht geöffnet werden, versuche lokale Kamera...")
-            self.video = cv2.VideoCapture(0)
+        self.stream = requests.get(self.stream_url, stream=True)
+        self.bytes = b''
 
     def __del__(self):
-        self.video.release()
+        self.stream.close()
 
     def get_frame(self):
-        cv2.setLogLevel(0)
-        success, image = self.video.read()
-        if not success:
-            print("⚠️ Kein Bild empfangen!")
+        try:
+            # Lies kontinuierlich den Stream Buffer
+            self.bytes += self.stream.raw.read(1024)
+            a = self.bytes.find(b'\xff\xd8')  # JPEG start
+            b = self.bytes.find(b'\xff\xd9')  # JPEG end
+            if a != -1 and b != -1:
+                jpg = self.bytes[a:b+2]
+                self.bytes = self.bytes[b+2:]
+                img = cv2.imdecode(np.frombuffer(jpg, dtype=np.uint8), cv2.IMREAD_COLOR)
+                if img is not None:
+                    resized_image = cv2.resize(img, (160, 120))
+                    ret, jpeg = cv2.imencode('.jpg', resized_image)
+                    return jpeg.tobytes()
+                else:
+                    print("?? Bild konnte nicht dekodiert werden.")
+                    return b''
+            else:
+                print("?? Noch kein vollständiges JPEG-Paket.")
+                return b''
+        except Exception as e:
+            print(f"?? Fehler beim Lesen des MJPEG Streams: {e}")
             return b''
-        resized_image = cv2.resize(image, (160, 120))
-        ret, jpeg = cv2.imencode('.jpg', resized_image)
-        return jpeg.tobytes()
