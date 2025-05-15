@@ -14,6 +14,8 @@ def get_data_dir():
         os.makedirs(BASE_DATA_DIR)
     files = os.listdir(BASE_DATA_DIR)
     files = [f.removesuffix(".csv") for f in files if os.path.isfile(os.path.join(BASE_DATA_DIR, f))]
+    # sort by name descending
+    files.sort(reverse=True)
     return files
 
 def get_data_file(filename):

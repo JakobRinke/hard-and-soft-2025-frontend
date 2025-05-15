@@ -9,6 +9,7 @@ function renderTable(data) {
 
     // Create header row
     const headerRow = document.createElement('tr');
+
     for (const key in data) {
         const th = document.createElement('th');
         th.textContent = key;

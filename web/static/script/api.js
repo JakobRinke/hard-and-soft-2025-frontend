@@ -30,13 +30,15 @@ async function find_files() {
 class SensorData {
     constructor(data) {
         this.data = data;
-        this.timestamps = this.data['timestamps']
-        this.alcohol = this.data['alcohol']
-        this.magnetic_field = this.data['magnetic_field']
-        this.ultrasonic = this.data['ultrasonic']
-        this.vibration = this.data['vibration']
-        this.x = this.data['x']
-        this.y = this.data['y']
+        this.timestamps = this.data['Timestamp']
+        this.alcohol = this.data['Alcohol']
+        this.magnetic_field = this.data['MagneticField']
+        this.ultrasonic = this.data['Ultrasonic']
+        this.vibration = this.data['Vibration']
+        this.x = this.data['X']
+        this.y = this.data['Y']
+        this.battery_voltage = this.data['Battery Voltage']
+        this.battery_percentage = this.data[' Battery %'] || this.data['Battery %'] || this.data['Battery']
     }
 
     get_basic_table_data() {
@@ -48,6 +50,8 @@ class SensorData {
             "Vibration": this.vibration,
             "X": this.x,
             "Y": this.y,
+            "Battery Voltage": this.battery_voltage,
+            "Battery %": this.battery_percentage
         }
     }
 }
